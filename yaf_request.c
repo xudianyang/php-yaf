@@ -269,11 +269,26 @@ zval * yaf_request_query(uint type, char * name, uint len TSRMLS_DC) {
 #else
 	switch (type) {
 		case YAF_GLOBAL_VARS_POST:
+            if (jit_initialization) {
+                zend_is_auto_global(ZEND_STRL("_POST") TSRMLS_CC);
+            }
+            (void)zend_hash_find(&EG(symbol_table), ZEND_STRS("_POST"), (void **)&carrier);
+            break;
 		case YAF_GLOBAL_VARS_GET:
+            if (jit_initialization) {
+                zend_is_auto_global(ZEND_STRL("_GET") TSRMLS_CC);
+            }
+            (void)zend_hash_find(&EG(symbol_table), ZEND_STRS("_GET"), (void **)&carrier);
+            break;
 		case YAF_GLOBAL_VARS_FILES:
+            carrier = &PG(http_globals)[type];
+            break;
 		case YAF_GLOBAL_VARS_COOKIE:
-			carrier = &PG(http_globals)[type];
-			break;
+            if (jit_initialization) {
+                zend_is_auto_global(ZEND_STRL("_COOKIE") TSRMLS_CC);
+            }
+            (void)zend_hash_find(&EG(symbol_table), ZEND_STRS("_COOKIE"), (void **)&carrier);
+            break;
 		case YAF_GLOBAL_VARS_ENV:
 			if (jit_initialization) {
 				zend_is_auto_global(ZEND_STRL("_ENV") TSRMLS_CC);

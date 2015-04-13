@@ -242,7 +242,11 @@ static yaf_config_t * yaf_config_ini_unserialize(yaf_config_t *this_ptr, zval *f
 		return NULL;
 	}
 
-	len = spprintf(&key, 0, "%s#%s", Z_STRVAL_P(filename), Z_STRVAL_P(section));
+    if (section == NULL || Z_TYPE_P(section) == IS_NULL) {
+        len = spprintf(&key, 0, "%s#", Z_STRVAL_P(filename));
+    } else {
+        len = spprintf(&key, 0, "%s#%s", Z_STRVAL_P(filename), Z_STRVAL_P(section));
+    }
 
 	if (zend_hash_find(YAF_G(configs), key, len + 1, (void **)&ppval) == SUCCESS) {
 		if (yaf_config_ini_modified(filename, (*ppval)->ctime TSRMLS_CC)) {
@@ -304,7 +308,12 @@ static void yaf_config_ini_serialize(yaf_config_t *this_ptr, zval *filename, zva
 	ctime = yaf_config_ini_modified(filename, 0 TSRMLS_CC);
 	cache->ctime = ctime;
 	cache->data  = persistent;
-	len = spprintf(&key, 0, "%s#%s", Z_STRVAL_P(filename), Z_STRVAL_P(section));
+
+    if (section == NULL || Z_TYPE_P(section) == IS_NULL) {
+        len = spprintf(&key, 0, "%s#", Z_STRVAL_P(filename));
+    } else {
+        len = spprintf(&key, 0, "%s#%s", Z_STRVAL_P(filename), Z_STRVAL_P(section));
+    }
 
 	zend_hash_update(YAF_G(configs), key, len + 1, (void **)&cache, sizeof(yaf_config_cache *), NULL);
 
@@ -341,6 +350,8 @@ yaf_config_t * yaf_config_instance(yaf_config_t *this_ptr, zval *arg1, zval *arg
 
 			return instance;
 		}
+		yaf_trigger_error(YAF_ERR_TYPE_ERROR TSRMLS_CC, "Expects a path to *.ini configuration file as parameter");
+		return NULL;
 	}
 
 	if (Z_TYPE_P(arg1) == IS_ARRAY) {

@@ -22,12 +22,13 @@
 #define YAF_DEFAULT_VIEW_EXT     	  		"phtml"
 #define YAF_DEFAULT_LIBRARY_EXT		   		YAF_DEFAULT_CONTROLLER_EXT
 
-#define YAF_LIBRARY_DIRECTORY_NAME    		"library"
-#define YAF_CONTROLLER_DIRECTORY_NAME 		"controllers"
-#define YAF_PLUGIN_DIRECTORY_NAME 	  		"plugins"
-#define YAF_MODULE_DIRECTORY_NAME     		"modules"
-#define YAF_VIEW_DIRECTORY_NAME       		"views"
-#define YAF_MODEL_DIRECTORY_NAME      		"models"
+#define YAF_LIBRARY_DIRECTORY_NAME    		"Library"
+#define YAF_CONTROLLER_DIRECTORY_NAME 		"Controllers"
+#define YAF_PLUGIN_DIRECTORY_NAME 	  		"Plugins"
+#define YAF_MODULE_DIRECTORY_NAME     		"Modules"
+#define YAF_VIEW_DIRECTORY_NAME       		"Views"
+#define YAF_MODEL_DIRECTORY_NAME      		"Models"
+#define YAF_ACTIONS_DIRECTORY_NAME			"Actions"
 
 #define YAF_SPL_AUTOLOAD_REGISTER_NAME 		"spl_autoload_register"
 #define YAF_AUTOLOAD_FUNC_NAME 				"autoload"
